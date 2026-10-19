@@ -33,6 +33,9 @@
     display:flex; flex-direction:column;
     transition:transform 1.6s cubic-bezier(.16,1,.3,1);
   }
+  .twins { display:flex; justify-content:center; margin-top:16px; }
+  .twins .digit > span { transition-duration:.5s; }
+  .twins .gap { display:inline-block; width:.6em; }
   /* Varje siffra får en färg efter sitt värde: 0 mörkast, 9 ljusast. */
   .digit > span > span { height:1em; color:color-mix(in oklab, var(--d9) calc(var(--v) * 100% / 9), var(--d0)); }
   @media (prefers-reduced-motion: reduce) {
@@ -46,6 +49,9 @@
     <h1>Välkommen till <span>eder.se</span></h1>
     <div class="prime" id="prime" aria-label="136279841">
       <span class="exp" id="exp" aria-hidden="true"></span>
+    </div>
+    <div class="twins" aria-hidden="true">
+      <span class="exp" id="twins"></span>
     </div>
   </main>
   <script>
@@ -76,6 +82,76 @@
           });
         });
       });
+    })();
+
+    // Letar efter primtalstvillingar (p och p+2 är båda primtal) och visar det senast hittade paret.
+    (function () {
+      var box = document.getElementById('twins');
+      var strips = [];   // en siffra per plats, eller null för mellanrummet
+
+      function isPrime(n) {
+        if (n % 3 === 0) return n === 3;
+        for (var f = 5; f * f <= n; f += 6) {
+          if (n % f === 0 || n % (f + 2) === 0) return false;
+        }
+        return true;
+      }
+
+      function makeDigit() {
+        var digit = document.createElement('span');
+        digit.className = 'digit';
+        var strip = document.createElement('span');
+        for (var n = 0; n < 10; n++) {
+          var cell = document.createElement('span');
+          cell.textContent = n;
+          cell.style.setProperty('--v', n);
+          strip.appendChild(cell);
+        }
+        digit.appendChild(strip);
+        return { el: digit, strip: strip };
+      }
+
+      function show(text) {
+        // Bygg om rutorna bara när antalet siffror ändras, annars rullar siffrorna till nya värden.
+        if (strips.length !== text.length) {
+          box.textContent = '';
+          strips = text.split('').map(function (ch) {
+            if (ch === ' ') {
+              var gap = document.createElement('span');
+              gap.className = 'gap';
+              box.appendChild(gap);
+              return null;
+            }
+            var d = makeDigit();
+            box.appendChild(d.el);
+            return d;
+          });
+        }
+        text.split('').forEach(function (ch, i) {
+          if (strips[i]) strips[i].strip.style.transform = 'translateY(-' + ch + 'em)';
+        });
+      }
+
+      var k = 1;            // kandidater: 6k-1 och 6k+1 (plus specialfallet 3 och 5)
+      var found = [3, 5];
+      var shownAt = 0;
+      show('3 5');
+
+      function search(now) {
+        var stop = performance.now() + 6;
+        while (performance.now() < stop) {
+          for (var i = 0; i < 200; i++, k++) {
+            var p = 6 * k - 1;
+            if (isPrime(p) && isPrime(p + 2)) found = [p, p + 2];
+          }
+        }
+        if (now - shownAt > 700) {
+          show(found[0] + ' ' + found[1]);
+          shownAt = now;
+        }
+        requestAnimationFrame(search);
+      }
+      setTimeout(function () { requestAnimationFrame(search); }, 1800);
     })();
   </script>
 </body>
