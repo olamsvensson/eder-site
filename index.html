@@ -34,7 +34,6 @@
     transition:transform 1.6s cubic-bezier(.16,1,.3,1);
   }
   .digit > span > span { height:1em; }
-  .gap { width:.3em; }
   @media (prefers-reduced-motion: reduce) {
     .digit > span { transition:none; }
   }
@@ -44,7 +43,7 @@
   <main>
     <div class="mark"></div>
     <h1>Välkommen till <span>eder.se</span></h1>
-    <div class="prime" id="prime" aria-label="136 279 841">
+    <div class="prime" id="prime" aria-label="136279841">
       <span class="exp" id="exp" aria-hidden="true"></span>
     </div>
   </main>
@@ -55,11 +54,6 @@
       var exp = document.getElementById('exp');
       var strips = [];
       exponent.split('').forEach(function (d, i) {
-        if (i > 0 && (exponent.length - i) % 3 === 0) {
-          var gap = document.createElement('span');
-          gap.className = 'gap';
-          exp.appendChild(gap);
-        }
         var digit = document.createElement('span');
         digit.className = 'digit';
         var strip = document.createElement('span');
