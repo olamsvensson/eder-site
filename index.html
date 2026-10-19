@@ -6,9 +6,9 @@
 <title>eder.se</title>
 <meta name="description" content="Välkommen till eder.se">
 <style>
-  :root { --bg:#f7f5f0; --text:#1d1d1f; --muted:#6b6b70; --accent:#2f6f5e; }
+  :root { --bg:#f7f5f0; --text:#1d1d1f; --muted:#6b6b70; --accent:#2f6f5e; --d0:#0e2a22; --d9:#9fd4c2; }
   @media (prefers-color-scheme: dark) {
-    :root { --bg:#141615; --text:#ecebe7; --muted:#9a9a9f; --accent:#7cc2ab; }
+    :root { --bg:#141615; --text:#ecebe7; --muted:#9a9a9f; --accent:#7cc2ab; --d0:#2a5e50; --d9:#e3f5ee; }
   }
   * { box-sizing:border-box; margin:0; }
   html, body { height:100%; }
@@ -33,7 +33,8 @@
     display:flex; flex-direction:column;
     transition:transform 1.6s cubic-bezier(.16,1,.3,1);
   }
-  .digit > span > span { height:1em; }
+  /* Varje siffra får en färg efter sitt värde: 0 mörkast, 9 ljusast. */
+  .digit > span > span { height:1em; color:color-mix(in oklab, var(--d9) calc(var(--v) * 100% / 9), var(--d0)); }
   @media (prefers-reduced-motion: reduce) {
     .digit > span { transition:none; }
   }
@@ -60,6 +61,7 @@
         for (var n = 0; n < 20; n++) {
           var cell = document.createElement('span');
           cell.textContent = n % 10;
+          cell.style.setProperty('--v', n % 10);
           strip.appendChild(cell);
         }
         digit.appendChild(strip);
