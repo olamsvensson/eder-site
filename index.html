@@ -23,7 +23,6 @@
   h1 { font-size:clamp(2rem, 6vw, 3.5rem); font-weight:700; letter-spacing:-0.02em; line-height:1.1; }
   h1 span { color:var(--accent); }
   p { margin-top:20px; font-size:1.125rem; color:var(--muted); line-height:1.6; }
-  footer { position:fixed; bottom:20px; font-size:.875rem; color:var(--muted); }
   .prime { margin-top:56px; }
   .exp {
     display:inline-flex; font-size:clamp(2.5rem, 9vw, 4.5rem); line-height:1;
@@ -49,10 +48,7 @@
       <span class="exp" id="exp" aria-hidden="true"></span>
     </div>
   </main>
-  <footer>&copy; <span id="y">2026</span> eder.se</footer>
   <script>
-    document.getElementById('y').textContent = new Date().getFullYear();
-
     // Exponenten rullar fram siffra för siffra, som en mätartavla.
     (function () {
       var exponent = '136279841';
