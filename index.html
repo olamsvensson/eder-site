@@ -25,16 +25,9 @@
   p { margin-top:20px; font-size:1.125rem; color:var(--muted); line-height:1.6; }
   footer { position:fixed; bottom:20px; font-size:.875rem; color:var(--muted); }
   .prime { margin-top:56px; }
-  .label { font-size:.75rem; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); }
-  .formula {
-    margin-top:14px; display:inline-flex; align-items:flex-start;
-    font-variant-numeric:tabular-nums; font-weight:300; color:var(--text);
-  }
-  .base { font-size:clamp(2.5rem, 8vw, 4rem); line-height:1; }
-  .minus { font-size:clamp(2.5rem, 8vw, 4rem); line-height:1; margin-left:.25em; }
   .exp {
-    display:inline-flex; font-size:clamp(1.1rem, 3.4vw, 1.6rem); line-height:1;
-    margin-left:.12em; color:var(--accent); font-weight:500;
+    display:inline-flex; font-size:clamp(2.5rem, 9vw, 4.5rem); line-height:1;
+    font-variant-numeric:tabular-nums; font-weight:300; color:var(--accent);
   }
   .digit { display:inline-block; height:1em; overflow:hidden; }
   .digit > span {
@@ -43,13 +36,8 @@
   }
   .digit > span > span { height:1em; }
   .gap { width:.3em; }
-  .meta {
-    margin-top:18px; font-size:.875rem; color:var(--muted);
-    opacity:0; transition:opacity 1s ease 2.4s;
-  }
-  .ready .meta { opacity:1; }
   @media (prefers-reduced-motion: reduce) {
-    .digit > span, .meta { transition:none; }
+    .digit > span { transition:none; }
   }
 </style>
 </head>
@@ -57,13 +45,9 @@
   <main>
     <div class="mark"></div>
     <h1>Välkommen till <span>eder.se</span></h1>
-    <section class="prime" id="prime" aria-label="Det största kända primtalet är 2 upphöjt till 136 279 841, minus 1">
-      <div class="label">Största kända primtalet</div>
-      <div class="formula" aria-hidden="true">
-        <span class="base">2</span><span class="exp" id="exp"></span><span class="minus">&minus;&nbsp;1</span>
-      </div>
-      <div class="meta">Mersenneprimtalet M136279841 &middot; 41&nbsp;024&nbsp;320 siffror &middot; upptäckt 2024</div>
-    </section>
+    <div class="prime" id="prime" aria-label="136 279 841">
+      <span class="exp" id="exp" aria-hidden="true"></span>
+    </div>
   </main>
   <footer>&copy; <span id="y">2026</span> eder.se</footer>
   <script>
@@ -98,7 +82,6 @@
             s.el.style.transitionDelay = s.delay + 'ms';
             s.el.style.transform = 'translateY(-' + s.target + 'em)';
           });
-          document.getElementById('prime').classList.add('ready');
         });
       });
     })();
